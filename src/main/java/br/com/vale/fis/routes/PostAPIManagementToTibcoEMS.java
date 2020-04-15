@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PostAPIManagementToTibcoEMS extends RouteBuilder {
 
-  @Value("${tibco.queue}")
-  private String tibcoQueue;
+  @Value("${tibco.queueIn}")
+  private String tibcoQueueIn;
 
   @Value("${tibco.host}")
   private String host;
@@ -49,7 +49,7 @@ public class PostAPIManagementToTibcoEMS extends RouteBuilder {
       .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
       .convertBodyTo(String.class, "UTF-8")
       .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-      .to("tibco:".concat(tibcoQueue))
+      .to("tibco:".concat(tibcoQueueIn))
       .end()
 	  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
     
@@ -64,7 +64,7 @@ public class PostAPIManagementToTibcoEMS extends RouteBuilder {
       .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
       .convertBodyTo(String.class, "UTF-8")
       .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-      .to("tibco:".concat(tibcoQueue))
+      .to("tibco:".concat(tibcoQueueIn))
       .end()
 	  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
     

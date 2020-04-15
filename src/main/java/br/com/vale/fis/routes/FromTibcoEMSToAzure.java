@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class FromTibcoEMSToAzure extends RouteBuilder {
 
-		@Value("${tibco.queue}")
-		private String tibcoQueue;
+		@Value("${tibco.queueOut}")
+		private String tibcoQueueOut;
 	
 		@Value("${tibco.host}")
 		private String host;
@@ -33,7 +33,7 @@ public class FromTibcoEMSToAzure extends RouteBuilder {
 	  
   getContext().addComponent("tibco", new ValeTibcoEMSComponent(host, user, password).getTibcoComponent());
 
-  from("tibco:".concat(tibcoQueue))
+  from("tibco:".concat(tibcoQueueOut))
       .routeId("FromTibcoEMSToAzure")
       .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
       .setHeader("soapAction",constant("http://www.vale.com/EH/EH20160010_01/GetMasterData/PostMasterDataReponse" ))
