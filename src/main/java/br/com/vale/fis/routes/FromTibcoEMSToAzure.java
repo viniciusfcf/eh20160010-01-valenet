@@ -27,14 +27,14 @@ public class FromTibcoEMSToAzure extends RouteBuilder {
   public void configure() throws Exception {
   
 	  onException(Exception.class)
-      .handled(true)
-      .bean(ValeLog.class, "logging(" + EventCode.E950 + ", ${exception.message})");
-      //.to("amqValenet:".concat(queue).concat(".DLQ"));
-	  
-  getContext().addComponent("tibco", new ValeTibcoEMSComponent(host, user, password).getTibcoComponent());
+	      .handled(true)
+	      .bean(ValeLog.class, "logging(" + EventCode.E950 + ", ${exception.message})");
+    
+  //getContext().addComponent("tibco", new ValeTibcoEMSComponent(host, user, password).getTibcoComponent());
 
   from("tibco:".concat(tibcoQueueOut))
       .routeId("FromTibcoEMSToAzure")
+      .setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
       .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
       .setHeader("soapAction",constant("http://www.vale.com/EH/EH20160010_01/GetMasterData/PostMasterDataReponse" ))
       .to("https4://healthandsafetyapi-webservice-dev.azurewebsites.net/Services/MasterDataService.asmx")
