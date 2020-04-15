@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FromTibcoEMSToAzure extends RouteBuilder {
+	
 
 		@Value("${tibco.queueOut}")
 		private String tibcoQueueOut;
@@ -30,8 +31,6 @@ public class FromTibcoEMSToAzure extends RouteBuilder {
 	      .handled(true)
 	      .bean(ValeLog.class, "logging(" + EventCode.E950 + ", ${exception.message})");
     
-  //getContext().addComponent("tibco", new ValeTibcoEMSComponent(host, user, password).getTibcoComponent());
-
   from("tibco:".concat(tibcoQueueOut))
       .routeId("FromTibcoEMSToAzure")
       .setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
