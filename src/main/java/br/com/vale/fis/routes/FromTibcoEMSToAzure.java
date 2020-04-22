@@ -50,7 +50,7 @@ public class FromTibcoEMSToAzure extends RouteBuilder {
 		.bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
 		.setHeader("SOAPAction",simple(soapAction))
 	    .setHeader(HttpHeaders.AUTHORIZATION,simple(autorizationKey))
-		.to("xslt:XMLToAzure.xslt")
+	    .transform(simple("${body.replace('<getMasterDataResponse>', '<getMasterDataResponse xmlns=\"http://www.vale.com/EH/EH20160010_01/GetMasterData\">')}"))
 		.setHeader(Exchange.CONTENT_TYPE,constant("text/xml"))
 		.inOnly ("https4://".concat(endpoint))
 		.log(Exchange.HTTP_RESPONSE_TEXT)
