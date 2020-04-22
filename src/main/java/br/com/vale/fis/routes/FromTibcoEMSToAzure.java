@@ -52,8 +52,8 @@ public class FromTibcoEMSToAzure extends RouteBuilder {
 	    .setHeader(HttpHeaders.AUTHORIZATION,simple(autorizationKey))
 		.to("xslt:XMLToAzure.xslt")
 		.setHeader(Exchange.CONTENT_TYPE,constant("text/xml"))
-		.inOnly ("https4://".concat(endpoint))
 		.log("${body}")
+		.inOnly ("https4://".concat(endpoint))
 		.log(Exchange.HTTP_RESPONSE_TEXT)
 		.bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
 

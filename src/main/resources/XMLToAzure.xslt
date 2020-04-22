@@ -5,7 +5,7 @@
 				   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
 				   xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
 			<soap:Body>
-				<getMasterDataResponse>
+				<getMasterDataResponse xmlns="http://www.vale.com/EH/EH20160010_01/GetMasterData">
 					<obj>
 						<Header>
 							<messageID><xsl:value-of select="Header/messageID"/></messageID> 
