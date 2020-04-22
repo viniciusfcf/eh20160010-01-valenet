@@ -61,7 +61,7 @@ public class PostAPIManagementToTibcoEMS extends RouteBuilder {
 		.bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
 		.convertBodyTo(String.class, "UTF-8")
 		.setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		.to("tibco:".concat(tibcoQueueIn)) 
+		.inOnly("tibco:".concat(tibcoQueueIn)) 
 		.bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
 
 		rest("/organizational")
@@ -75,7 +75,7 @@ public class PostAPIManagementToTibcoEMS extends RouteBuilder {
 		.bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
 		.convertBodyTo(String.class, "UTF-8")
 		.setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		.to("tibco:".concat(tibcoQueueIn))
+		.inOnly("tibco:".concat(tibcoQueueIn))
 		.bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
 	}
 
