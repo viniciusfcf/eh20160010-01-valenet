@@ -50,7 +50,7 @@ public class PostAPIManagementToTibcoEMS extends RouteBuilder {
 
 
 		
-		rest("/locatiom") 
+		rest("/location") 
 		.consumes(MediaType.APPLICATION_XML_VALUE)
 		.produces(MediaType.APPLICATION_XML_VALUE) 
 		.post("/structure") 
