@@ -48,34 +48,31 @@ public class PostAPIManagementToTibcoEMS extends RouteBuilder {
 				.setBody(simple(createResponse("NOK", "${exception.message}")))
 				.bean(ValeLog.class, "logging(" + EventCode.E950 + ", ${exception.message})");
 
-
 		
-		rest("/location") 
-			.consumes(MediaType.APPLICATION_XML_VALUE)
-			.produces(MediaType.APPLICATION_XML_VALUE) 
-			.post("/structure") 
-			.route()
-			.routeId("PostCompanyStructure")
-			.setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
-			.setHeader(ValeLogger.LOG_BODY.getValue()).simple("false")
-			.bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
-			.convertBodyTo(String.class, "UTF-8")
-			.setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-			.inOnly("tibco:".concat(tibcoQueueIn)) 
-			.bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
-
+		rest("/location") .consumes(MediaType.APPLICATION_XML_VALUE)
+		  .produces(MediaType.APPLICATION_XML_VALUE) .post("/structure") .route()
+		  .routeId("PostCompanyStructure")
+		  .setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
+		  .setHeader(ValeLogger.LOG_BODY.getValue()).simple("false")
+		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
+		  .convertBodyTo(String.class, "UTF-8")
+		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
+		  .inOnly("tibco:".concat(tibcoQueueIn)) 
+		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
+		 
 		
-		rest("/organizational") 
-		    .consumes(MediaType.APPLICATION_XML_VALUE)
-			.produces(MediaType.APPLICATION_XML_VALUE) .post("/unit") .route()
-			.routeId("PostOrganizationalUnit")
-			.setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
-			.setHeader(ValeLogger.LOG_BODY.getValue()).simple("false")
-			.bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
-			.convertBodyTo(String.class, "UTF-8")
-			.setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-			.inOnly("tibco:".concat(tibcoQueueIn)) 
-			.bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
+		
+		rest("/organizational") .consumes(MediaType.APPLICATION_XML_VALUE)
+		  .produces(MediaType.APPLICATION_XML_VALUE) .post("/unit") .route()
+		  .routeId("PostOrganizationalUnit")
+		  .setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
+		  .setHeader(ValeLogger.LOG_BODY.getValue()).simple("false")
+		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
+		  .convertBodyTo(String.class, "UTF-8")
+		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
+		  .inOnly("tibco:".concat(tibcoQueueIn)) 
+		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
+		 
 
 	}
 

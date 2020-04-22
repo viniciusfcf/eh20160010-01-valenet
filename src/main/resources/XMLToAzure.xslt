@@ -1,8 +1,9 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output omit-xml-declaration="no" indent="yes"/>
 	<xsl:template match="/getMasterDataResponse/obj">
-	<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"  
-				   xmlns:get="http://www.vale.com/EH/EH20160010_01/GetMasterData">
+	<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+				   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+				   xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
 			<soap:Body>
 				<getMasterDataResponse>
 					<obj>
