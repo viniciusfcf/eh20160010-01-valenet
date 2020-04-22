@@ -14,19 +14,37 @@
 		   				     <xsl:variable name="name" select="string(local-name())"/>
 		   				     <xsl:if test="$name='GetLocationStructure'">
 	   				     		<GetLocationStructure> 	
-									<DBKeyLocation><xsl:value-of select="DBKeyLocation"/></DBKeyLocation> 
-									<IDLocation><xsl:value-of select="IDLocation"/></IDLocation>
-									<Description><xsl:value-of select="Description"/></Description>
-									<Language><xsl:value-of select="Language"/></Language>
+									<xsl:if test="DBKeyLocation!=''">
+									    <DBKeyLocation><xsl:value-of select="DBKeyLocation"/></DBKeyLocation>
+									</xsl:if>
+									<xsl:if test="IDLocation!=''">
+									    <IDLocation><xsl:value-of select="IDLocation"/></IDLocation>
+									</xsl:if>
+									<xsl:if test="Description!=''">
+									    <Description><xsl:value-of select="Description"/></Description>
+									</xsl:if>
+									<xsl:if test="Language!=''">
+									    <Language><xsl:value-of select="Language"/></Language>
+									</xsl:if>
 								</GetLocationStructure>
 	    					 </xsl:if>
 		   				     <xsl:if test="$name='GetOrganizationalUnitStructure'">
 		   				     	<GetOrganizationalUnitStructure> 	
-									<IDOrgUnit><xsl:value-of select="IDOrgUnit"/></IDOrgUnit> 
-									<Description><xsl:value-of select="Description"/></Description>
-									<Language><xsl:value-of select="Language"/></Language>
-									<ManagerName><xsl:value-of select="ManagerName"/></ManagerName>
-									<OrgUnitLevel><xsl:value-of select="OrgUnitLevel"/></OrgUnitLevel>
+ 								    <xsl:if test="IDOrgUnit!=''">
+									    <IDOrgUnit><xsl:value-of select="IDOrgUnit"/></IDOrgUnit>
+									</xsl:if>
+ 								    <xsl:if test="Description!=''">
+									    <Description><xsl:value-of select="Description"/></Description>
+									</xsl:if>
+								    <xsl:if test="Language!=''">
+									    <Language><xsl:value-of select="Language"/></Language>
+									</xsl:if>
+								    <xsl:if test="ManagerName!=''">
+									    <ManagerName><xsl:value-of select="ManagerName"/></ManagerName>
+									</xsl:if>
+									<xsl:if test="OrgUnitLevel!=''">
+										<OrgUnitLevel><xsl:value-of select="OrgUnitLevel"/></OrgUnitLevel>
+									</xsl:if>
 								</GetOrganizationalUnitStructure>
 			    			 </xsl:if>
   		                 </xsl:for-each>	

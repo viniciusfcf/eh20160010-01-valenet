@@ -55,7 +55,6 @@ public class FromTibcoEMSToAzure extends RouteBuilder {
 		.inOnly ("https4://".concat(endpoint))
 		.log(Exchange.HTTP_RESPONSE_TEXT)
 		.bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
-		   
 
-  }
+	}
 }
