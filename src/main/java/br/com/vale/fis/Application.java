@@ -17,7 +17,7 @@ public class Application {
 
   @Bean
   public ServletRegistrationBean camelServletRegistrationBean() {
-    ServletRegistrationBean registration = new ServletRegistrationBean(new CamelHttpTransportServlet(), "/vale/api/*");
+    ServletRegistrationBean registration = new ServletRegistrationBean(new CamelHttpTransportServlet(), "/vale/fis/api/*");
     registration.setName("CamelServlet");
     return registration;
   }
