@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class FromTibcoEMSToAzure extends RouteBuilder {
 	
+		@Value("${tibco.queueIn}")
+		private String tibcoQueueIn;
 
 		@Value("${tibco.queueOut}")
 		private String tibcoQueueOut;
@@ -51,9 +53,8 @@ public class FromTibcoEMSToAzure extends RouteBuilder {
 		.setHeader("SOAPAction",simple(soapAction))
 	    .setHeader(HttpHeaders.AUTHORIZATION,simple(autorizationKey))
 	    .transform(simple("${body.replace('<getMasterDataResponse>', '<getMasterDataResponse xmlns=\"http://www.vale.com/EH/EH20160010_01/GetMasterData\">')}"))
-		.setHeader(Exchange.CONTENT_TYPE,constant("text/xml"))
+		.setHeader(Exchange.CONTENT_TYPE,constant("text/xml;charset=utf-8"))
 		.inOnly ("https4://".concat(endpoint))
-		.log(Exchange.HTTP_RESPONSE_TEXT)
 		.bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
 
 	}
