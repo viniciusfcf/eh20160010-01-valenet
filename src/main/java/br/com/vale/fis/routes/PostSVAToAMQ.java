@@ -50,7 +50,7 @@ public class PostSVAToAMQ extends RouteBuilder {
 		  .produces(MediaType.APPLICATION_JSON_VALUE)
 		  .post("/mensagens") 
 		  .route()
-		  .routeId("PostSvaSmartMensagens")
+		  .routeId("PostSvaSmartMensagen")
 		  .setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
 		  .setHeader(ValeLogger.LOG_BODY.getValue()).simple("false")
 		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
