@@ -7,12 +7,12 @@
     <version>1.0</version>
   </parent>
 
-  <artifactId>eh20160010-01-valenet</artifactId>
+  <artifactId>va20200008-01-ot</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
 
-  <name>eh20160010-01-valenet</name>
-  <description>eh20160010-01-valenet</description>
+  <name>va20200008-01-ot</name>
+  <description>va20200008-01-ot</description>
 
   <dependencies>
     <dependency>
