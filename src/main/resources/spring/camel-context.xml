@@ -10,7 +10,7 @@
     <property name="maxChars" value="1000"/>
   </bean>
 
-  <camelContext id="va20200008-01-ot" trace="false" useMDCLogging="true" xmlns="http://camel.apache.org/schema/spring">
+  <camelContext id="eh20160010-01-valenet" trace="false" useMDCLogging="true" xmlns="http://camel.apache.org/schema/spring">
   </camelContext>
 
 </beans>
