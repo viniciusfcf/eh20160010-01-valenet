@@ -13,19 +13,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PostAPIManagementToTibcoEMS extends RouteBuilder {
-
-	@Value("${tibco.queueIn}")
-	private String tibcoQueueIn;
-
-	@Value("${tibco.host}")
-	private String host;
-
-	@Value("${tibco.user}")
-	private String user;
-
-	@Value("${tibco.password}")
-	private String password;
+public class PostAPIManagementToAMQ extends RouteBuilder {
+	
+	
+	@Value("${activemq.queue.resquest}")
+	private String queueRequest;
 
 	@Value("${azure.endpoint}")
 	private String endpoint;
@@ -40,9 +32,7 @@ public class PostAPIManagementToTibcoEMS extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 
-		getContext().addComponent("tibco", new ValeTibcoEMSComponent(host, user, password).getTibcoComponent());
-
-		onException(Exception.class).handled(true)
+	   onException(Exception.class).handled(true)
 				.setHeader(Exchange.CONTENT_TYPE, constant(MediaType.APPLICATION_XML_VALUE))
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(500))
 				.setBody(simple(createResponse("NOK", "${exception.message}")))
@@ -57,10 +47,9 @@ public class PostAPIManagementToTibcoEMS extends RouteBuilder {
 		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .inOnly("tibco:".concat(tibcoQueueIn)) 
+		  .to("amqValenet:".concat(queueRequest))
 		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
-		 
-		
+	 
 		
 		rest("/organizational") .consumes(MediaType.APPLICATION_XML_VALUE)
 		  .produces(MediaType.APPLICATION_XML_VALUE) .post("/unit") .route()
@@ -70,10 +59,22 @@ public class PostAPIManagementToTibcoEMS extends RouteBuilder {
 		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .inOnly("tibco:".concat(tibcoQueueIn)) 
+		  .to("amqValenet:".concat(queueRequest))
 		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
 		 
-
+		rest("/category") .consumes(MediaType.APPLICATION_XML_VALUE)
+		  .produces(MediaType.APPLICATION_XML_VALUE) .post("/event") .route()
+		  .routeId("PostCategoryEvent")
+		  .setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
+		  .setHeader(ValeLogger.LOG_BODY.getValue()).simple("false")
+		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
+		  .convertBodyTo(String.class, "UTF-8")
+		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
+		  .to("amqValenet:".concat(queueRequest))
+		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
+		 
+		
+		
 	}
 
 	private String createResponse(String status, String messageError) {

@@ -13,31 +13,19 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FromTibcoEMSToAzure extends RouteBuilder {
+public class FromAMQToAzure extends RouteBuilder {
 	
-		@Value("${tibco.queueIn}")
-		private String tibcoQueueIn;
-
-		@Value("${tibco.queueOut}")
-		private String tibcoQueueOut;
+  @Value("${activemq.queue.response}")
+  private String queueResponse;
 	
-		@Value("${tibco.host}")
-		private String host;
+  @Value("${azure.endpoint}")
+  private String endpoint;
 	
-		@Value("${tibco.user}")
-		private String user;
+  @Value("${azure.autorizationKey}")
+  private String autorizationKey;
 	
-		@Value("${tibco.password}")
-		private String password;
-
-		@Value("${azure.endpoint}")
-		private String endpoint;
-		
-		@Value("${azure.autorizationKey}")
-		private String autorizationKey;
-		
-		@Value("${azure.soapAction}")
-		private String soapAction;
+  @Value("${azure.soapAction}")
+  private String soapAction;
 
   @Override
   public void configure() throws Exception {
@@ -46,7 +34,7 @@ public class FromTibcoEMSToAzure extends RouteBuilder {
 	      .handled(true)
 	      .bean(ValeLog.class, "logging(" + EventCode.E950 + ", ${exception.message})");
     
-	  from("tibco:".concat(tibcoQueueOut)) 
+	  from("amqValenet:".concat(queueResponse))
 	    .routeId("FromTibcoEMSToAzure")
 		.setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
 		.bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
