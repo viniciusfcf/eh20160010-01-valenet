@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class PostAPIManagementToAMQ extends RouteBuilder {
 	
 	
-	@Value("${activemq.queue.resquest}")
+	@Value("${activemq.queue.request}")
 	private String queueRequest;
 
 	@Value("${azure.endpoint}")
