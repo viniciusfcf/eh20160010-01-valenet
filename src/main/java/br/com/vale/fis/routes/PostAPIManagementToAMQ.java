@@ -47,7 +47,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .to("amqValenet:".concat(queueRequest))
+		  .inOnly("amqValenet:".concat(queueRequest))
 		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
 	 
 		
@@ -59,7 +59,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .to("amqValenet:".concat(queueRequest))
+		  .inOnly("amqValenet:".concat(queueRequest))
 		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
 		 
 		rest("/category") .consumes(MediaType.APPLICATION_XML_VALUE)
@@ -70,7 +70,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .to("amqValenet:".concat(queueRequest))
+		  .inOnly("amqValenet:".concat(queueRequest))
 		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
 		 
 		
