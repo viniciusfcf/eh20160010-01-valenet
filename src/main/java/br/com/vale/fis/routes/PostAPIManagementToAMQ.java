@@ -1,20 +1,20 @@
 package br.com.vale.fis.routes;
 
-import br.com.vale.fis.components.ValeTibcoEMSComponent;
+
 import br.com.vale.fis.log.EventCode;
-import br.com.vale.fis.log.ValeLog;
-import br.com.vale.fis.log.ValeLogger;
+import br.com.vale.fis.log.LogHeaders;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PostAPIManagementToAMQ extends RouteBuilder {
 	
+	@Value("${app.global-id}")
+	private String globalId;
 	
 	@Value("${activemq.queue.request}")
 	private String queueRequest;
@@ -36,45 +36,45 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 				.setHeader(Exchange.CONTENT_TYPE, constant(MediaType.APPLICATION_XML_VALUE))
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(500))
 				.setBody(simple(createResponse("NOK", "${exception.message}")))
-				.bean(ValeLog.class, "logging(" + EventCode.E950 + ", ${exception.message})");
+				.log(EventCode.E950 + ", ${exception.message}");;
 
 		
 		rest("/location") .consumes(MediaType.APPLICATION_XML_VALUE)
 		  .produces(MediaType.APPLICATION_XML_VALUE) .post("/structure") .route()
 		  .routeId("PostCompanyStructure")
-		  .setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
-		  .setHeader(ValeLogger.LOG_BODY.getValue()).simple("false")
-		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
+	      .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
+	      .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
+	      .log(EventCode.V001 + ", Send Company Structure - Started")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .inOnly("amqValenet:".concat(queueRequest))
-		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
+		  //.to("amqValenet:".concat(queueRequest).concat("&timeToLive=240000"))
+		  .to("amqValenet:".concat(queueRequest))
+          .log(EventCode.V100 + ", Send Company Structure - Finished");
 	 
 		
 		rest("/organizational") .consumes(MediaType.APPLICATION_XML_VALUE)
 		  .produces(MediaType.APPLICATION_XML_VALUE) .post("/unit") .route()
 		  .routeId("PostOrganizationalUnit")
-		  .setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
-		  .setHeader(ValeLogger.LOG_BODY.getValue()).simple("false")
-		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
+	      .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
+	      .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
+	      .log(EventCode.V001 + ", Send Organizational Unit - Started")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .inOnly("amqValenet:".concat(queueRequest))
-		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
-		 
+		  .to("amqValenet:".concat(queueRequest))
+          .log(EventCode.V100 + ", Send Organizational Unit - Finished");
+
+		
 		rest("/category") .consumes(MediaType.APPLICATION_XML_VALUE)
 		  .produces(MediaType.APPLICATION_XML_VALUE) .post("/event") .route()
 		  .routeId("PostCategoryEvent")
-		  .setHeader(ValeLogger.ROUTE_ID.getValue()).simple("${routeId}")
-		  .setHeader(ValeLogger.LOG_BODY.getValue()).simple("false")
-		  .bean(ValeLog.class, "logging(" + EventCode.V001 + ", Start)")
+	      .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
+	      .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
+	      .log(EventCode.V001 + ", Send Category Event  - Started")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .inOnly("amqValenet:".concat(queueRequest))
-		  .bean(ValeLog.class, "logging(" + EventCode.V100 + ", Finished)");
+		  .to("amqValenet:".concat(queueRequest))
+          .log(EventCode.V100 + ", Send Category Event - Finished");
 		 
-		
-		
 	}
 
 	private String createResponse(String status, String messageError) {
