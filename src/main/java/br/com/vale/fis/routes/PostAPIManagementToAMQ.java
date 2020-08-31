@@ -47,7 +47,6 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 	      .log(EventCode.V001 + ", Send Company Structure - Started")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  //.to("amqValenet:".concat(queueRequest).concat("&timeToLive=240000"))
 		  .inOnly("amqValenet:".concat(queueRequest))
           .log(EventCode.V100 + ", Send Company Structure - Finished");
 	 
