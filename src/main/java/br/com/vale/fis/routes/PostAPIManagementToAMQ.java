@@ -48,7 +48,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
 		  //.to("amqValenet:".concat(queueRequest).concat("&timeToLive=240000"))
-		  .to("amqValenet:".concat(queueRequest))
+		  .inOnly("amqValenet:".concat(queueRequest))
           .log(EventCode.V100 + ", Send Company Structure - Finished");
 	 
 		
@@ -60,7 +60,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 	      .log(EventCode.V001 + ", Send Organizational Unit - Started")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .to("amqValenet:".concat(queueRequest))
+		  .inOnly("amqValenet:".concat(queueRequest))
           .log(EventCode.V100 + ", Send Organizational Unit - Finished");
 
 		
@@ -72,7 +72,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 	      .log(EventCode.V001 + ", Send Category Event  - Started")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .to("amqValenet:".concat(queueRequest))
+		  .inOnly("amqValenet:".concat(queueRequest))
           .log(EventCode.V100 + ", Send Category Event - Finished");
 		 
 	}
