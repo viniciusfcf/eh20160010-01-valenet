@@ -17,8 +17,8 @@
 	<description>eh20160010-01-valenet</description>
 
 	<properties>
-		<vale-fis-common.version>7.4</vale-fis-common.version>
-		<vale-fis-log.version>2.10</vale-fis-log.version>
+		<vale-fis-common.version>7.5.2</vale-fis-common.version>
+		<vale-fis-log.version>2.11.1</vale-fis-log.version>
 	</properties>
 
 	<dependencies>
