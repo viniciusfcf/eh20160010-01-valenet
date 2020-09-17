@@ -10,15 +10,15 @@
 	</parent>
 
 	<artifactId>eh20160010-01-valenet</artifactId>
-	<version>1.0</version>
+	<version>1.1.2</version>
 	<packaging>jar</packaging>
 
 	<name>eh20160010-01-valenet</name>
 	<description>eh20160010-01-valenet</description>
 
 	<properties>
-		<vale-fis-common.version>7.5.2</vale-fis-common.version>
-		<vale-fis-log.version>2.11.1</vale-fis-log.version>
+		<vale-fis-common.version>7.5.3</vale-fis-common.version>
+		<vale-fis-log.version>2.11.2</vale-fis-log.version>
 	</properties>
 
 	<dependencies>
@@ -74,6 +74,10 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+          			<source>1.8</source>
+          			<target>1.8</target>
+        		</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
