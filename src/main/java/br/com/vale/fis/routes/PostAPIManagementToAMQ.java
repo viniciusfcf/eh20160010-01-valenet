@@ -1,14 +1,14 @@
 package br.com.vale.fis.routes;
 
 
-import br.com.vale.fis.log.EventCode;
-import br.com.vale.fis.log.LogHeaders;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+
+import br.com.vale.fis.log.impl.EventCode;
+import br.com.vale.fis.log.impl.LogHeaders;
 
 @Component
 public class PostAPIManagementToAMQ extends RouteBuilder {

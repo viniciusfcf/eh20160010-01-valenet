@@ -17,8 +17,9 @@
 	<description>eh20160010-01-valenet</description>
 
 	<properties>
-		<vale-fis-common.version>7.5.3</vale-fis-common.version>
-		<vale-fis-log.version>2.11.2</vale-fis-log.version>
+		<vale-fis-common.version>7.4</vale-fis-common.version>
+		<vale-fis-log.version>1.0.1.RELEASE</vale-fis-log.version>
+		<vale-fis-archetype.version>1.0.0.RELEASE</vale-fis-archetype.version>
 	</properties>
 
 	<dependencies>
@@ -67,6 +68,11 @@
 			<artifactId>vale-fis-log</artifactId>
 			<version>${vale-fis-log.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>br.com.vale.fis</groupId>
+			<artifactId>vale-fis-archetype</artifactId>
+			<version>${vale-fis-archetype.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -75,9 +81,9 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-          			<source>1.8</source>
-          			<target>1.8</target>
-        		</configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

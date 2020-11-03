@@ -1,9 +1,6 @@
 package br.com.vale.fis.routes;
 
 
-import br.com.vale.fis.log.EventCode;
-import br.com.vale.fis.log.LogHeaders;
-
 import javax.annotation.PostConstruct;
 
 import org.apache.camel.CamelContext;
@@ -13,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+
+import br.com.vale.fis.log.impl.EventCode;
+import br.com.vale.fis.log.impl.LogHeaders;
 
 @Component
 public class FromAMQToAzure extends RouteBuilder {

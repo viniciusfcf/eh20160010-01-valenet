@@ -19,7 +19,7 @@ import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.stereotype.Component;
 
 import br.com.vale.fis.connections.ValeAMQConnectionFactory;
-import br.com.vale.fis.log.EventCode;
+import br.com.vale.fis.log.impl.EventCode;
 
 @Component
 public class QueueListener {
