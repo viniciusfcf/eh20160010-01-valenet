@@ -36,7 +36,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 				.setHeader(Exchange.CONTENT_TYPE, constant(MediaType.APPLICATION_XML_VALUE))
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(500))
 				.setBody(simple(createResponse("NOK", "${exception.message}")))
-				.log(EventCode.E950 + ", ${exception.message}");;
+				.log(EventCode.E950 + ", ${exception.message}");
 
 		
 		rest("/location") 
