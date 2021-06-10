@@ -23,6 +23,7 @@ public class FromAMQToAzure extends RouteBuilder {
   @Value("${activemq.queue.response}")
   private String queueResponse;
   
+  
   @Value("${activemq.queue.response-dev}")
   private String queueResponseDev;
 	
@@ -56,10 +57,12 @@ public class FromAMQToAzure extends RouteBuilder {
 		  .log(EventCode.E950 + ", ${exception.message}");
     
 	  //from("amqValenet:VALE.BR.AMQ.GETMASTERDATA.RESPONSE")
-	  from("direct:start")
+	//  from("direct:start")
+	  from("amqValenet:" + queueResponse)
 	    .routeId("FromAMQToAzure")
         .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
         .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
+        .log(EventCode.V001 + ", Interface Started")
         .log(EventCode.V008 + ", Get Master Data  - Started")
 		
 		.setHeader("SOAPAction",simple(soapAction))
@@ -73,10 +76,12 @@ public class FromAMQToAzure extends RouteBuilder {
 	  
 	  /** Configuração para o ambiente SAP-EQ0 **/
 	  
-	  from("direct:start-dev")
-		  .routeId("FromAMQToAzure")
+	 // from("direct:start-dev")
+	  from("amqValenet:" + queueResponseDev)
+		  .routeId("FromAMQToAzureDEV")
 	      .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
 	      .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
+	      .log(EventCode.V001 + ", Interface Started (DEV)")
 	      .log(EventCode.V008 + ", Get Master Data (DEV) - Started")
 			
 	      .setHeader("SOAPAction",simple(soapAction))
