@@ -32,15 +32,25 @@ public class QueueListener {
 	private String user;
 	@Value("${amq.valenet.password}")
 	private String passwd;
+	
 
 	@Autowired
 	private CamelContext context;	
 
 	@JmsListener(destination = "VALE.BR.AMQ.GETMASTERDATA.RESPONSE", containerFactory = "jmsFactory")
 	public void devValenetConsumer(Message msg) throws JMSException {
-		logger.info(EventCode.V001 + ", Message Received from VALE.BR.AMQ.GETMASTERDATA.RESPONSE.");
+		logger.info(EventCode.V001 + ", Message Received from VALE.BR.AMQ.GETMASTERDATA.RESPONSE");
 		context.createProducerTemplate().sendBody("direct:start", ((TextMessage) msg).getText());
 	}
+	
+
+	@JmsListener(destination = "VALE.BR.AMQ.GETMASTERDATA.RESPONSE.DEV", containerFactory = "jmsFactory")
+	public void devEQ0ValenetConsumer(Message msg) throws JMSException {
+		logger.info(EventCode.V001 + ", Message Received from VALE.BR.AMQ.GETMASTERDATA.RESPONSE.DEV");
+		context.createProducerTemplate().sendBody("direct:start-dev", ((TextMessage) msg).getText());
+	}
+	
+
 
 	@Bean
 	public JmsListenerContainerFactory<?> jmsFactory(ConnectionFactory connectionFactory,
