@@ -3,17 +3,18 @@ package br.com.vale.fis.routes;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
-import br.com.vale.fis.log.impl.EventCode;
-import br.com.vale.fis.log.impl.LogHeaders;
+import br.com.vale.fis.log.enums.EventCode;
+import br.com.vale.fis.log.enums.LogHeaders;
 
 @Component
 public class PostAPIManagementToAMQ extends RouteBuilder {
 	
-	@Value("${app.global-id}")
+	@Value("${app.global.id}")
 	private String globalId;
 	
 	@Value("${activemq.queue.request}")
@@ -31,6 +32,8 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 	@Value("${azure.soapAction}")
 	private String soapAction;
 	
+	  @Autowired
+	  private static final String FUSE_LOG = "fuseLog";
 	
 	@Override
 	public void configure() throws Exception {			   
@@ -39,7 +42,8 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 				.setHeader(Exchange.CONTENT_TYPE, constant(MediaType.APPLICATION_XML_VALUE))
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(500))
 				.setBody(simple(createResponse("NOK", "${exception.message}")))
-				.log(EventCode.E950 + ", ${exception.message}");
+				.bean(FUSE_LOG,"log(" + EventCode.E950 + ",'Generic Error ${exception.message}')")
+				;
 
 		
 		rest("/location") 
@@ -49,12 +53,14 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  	.route()
 		  	.routeId("PostCompanyStructure")
 		  	.setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
+		  	.setProperty(LogHeaders.SYSTEM_NAME.value, simple("FUSE"))
 		  	.setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
-		  	.log(EventCode.V001 + ", Send Company Structure - Started")
+		  	.bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Company Structure - Started')")
 		  	.convertBodyTo(String.class, "UTF-8")
 		  	.setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		    .inOnly("amqValenet:".concat(queueRequest))
-            .log(EventCode.V100 + ", Send Company Structure - Finished");
+		    .to("amqValenet:".concat(queueRequest))
+			.bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Company Structure - Finished')")
+           ;
 	 
 		
 		rest("/organizational") 
@@ -62,12 +68,14 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 			.produces(MediaType.APPLICATION_XML_VALUE) .post("/unit") .route()
 			.routeId("PostOrganizationalUnit")
 		     .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
-		     .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
-		     .log(EventCode.V001 + ", Send Organizational Unit - Started")
+		     .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))  
+		     .setProperty(LogHeaders.SYSTEM_NAME.value, simple("FUSE"))
+		 	 .bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Organizational Unit - Started')")
 			 .convertBodyTo(String.class, "UTF-8")
 			 .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-			 .inOnly("amqValenet:".concat(queueRequest))
-	         .log(EventCode.V100 + ", Send Organizational Unit - Finished");
+			 .to("amqValenet:".concat(queueRequest))
+			 .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Organizational Unit - Finished')")
+	        ;
 
 		
 		rest("/category") .consumes(MediaType.APPLICATION_XML_VALUE)
@@ -75,11 +83,12 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  .routeId("PostCategoryEvent")
 	      .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
 	      .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
-	      .log(EventCode.V001 + ", Send Category Event  - Started")
+	      .setProperty(LogHeaders.SYSTEM_NAME.value, simple("FUSE"))
+	      .bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Category Event  - Started')")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .inOnly("amqValenet:".concat(queueRequest))
-          .log(EventCode.V100 + ", Send Category Event - Finished");
+		  .to("amqValenet:".concat(queueRequest))
+		  .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Category Event  - Finished')");
 		
 		
 		/** Configuração para o ambiente SAP-EQ0 **/
@@ -92,11 +101,13 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  .routeId("PostCompanyStructureDEV")
 		  .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
 		  .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
-		  .log(EventCode.V001 + ", Send Company Structure (DEV) - Started")
+		  .setProperty(LogHeaders.SYSTEM_NAME.value, simple("FUSE"))
+		  .bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Company Structure (DEV) - Started')")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .inOnly("amqValenet:".concat(queueRequestDev))
-          .log(EventCode.V100 + ", Send Company Structure (DEV) - Finished");
+		  .to("amqValenet:".concat(queueRequestDev))
+		  .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Company Structure (DEV) - Finished')")
+          ;
 	 
 		
 		rest("/organizational") 
@@ -107,11 +118,13 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 			.routeId("PostOrganizationalUnitDEV")
 		     .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
 		     .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
-		     .log(EventCode.V001 + ", Send Organizational Unit (DEV) - Started")
+		     .setProperty(LogHeaders.SYSTEM_NAME.value, simple("FUSE"))
+		     .bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Organizational Unit (DEV) - Started')")
 			 .convertBodyTo(String.class, "UTF-8")
 			 .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-			 .inOnly("amqValenet:".concat(queueRequestDev))
-	         .log(EventCode.V100 + ", Send Organizational Unit (DEV) - Finished");
+			 .to("amqValenet:".concat(queueRequestDev))
+			 .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Organizational Unit (DEV) - Finished')")
+	         ;
 
 		
 		rest("/category") 
@@ -122,11 +135,13 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  .routeId("PostCategoryEventDEV")
 	      .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
 	      .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
-	      .log(EventCode.V001 + ", Send Category Event (DEV) - Started")
+	      .setProperty(LogHeaders.SYSTEM_NAME.value, simple("FUSE"))
+	      .bean(FUSE_LOG,"log(" + EventCode.V001 + ",'Send Category Event (DEV) - Started')")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .inOnly("amqValenet:".concat(queueRequestDev))
-		  .log(EventCode.V100 + ", Send Category Event (DEV) - Finished");
+		  .to("amqValenet:".concat(queueRequestDev))
+	      .bean(FUSE_LOG,"log(" + EventCode.V100 + ",'Send Category Event (DEV) - Finished')")
+		  ;
 		 
 	}
 

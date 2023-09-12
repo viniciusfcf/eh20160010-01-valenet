@@ -6,97 +6,120 @@
 	<parent>
 		<groupId>br.com.vale.fis</groupId>
 		<artifactId>vale-fis-parent</artifactId>
-		<version>1.0</version>
+		<version>2.1</version>
 	</parent>
 
 	<artifactId>eh20160010-01-valenet</artifactId>
-	<version>2.1</version>
-	<packaging>jar</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>eh20160010-01-valenet</name>
+    <description>eh20160010-01-valenet</description>
 
-	<name>eh20160010-01-valenet</name>
-	<description>eh20160010-01-valenet</description>
-
-	<properties>
-		<vale-fis-common.version>7.4</vale-fis-common.version>
-		<vale-fis-log.version>1.0.1.RELEASE</vale-fis-log.version>
-		<vale-fis-archetype.version>1.0.0.RELEASE</vale-fis-archetype.version>
-	</properties>
+	<repositories>
+        <repository>
+            <id>fuse-repo</id>
+            <url>https://vale-devops.pkgs.visualstudio.com/d925569a-c008-43d6-9dd1-7ed36f337070/_packaging/fuse-repo/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>fuse-repo</id>
+            <url>https://vale-devops.pkgs.visualstudio.com/d925569a-c008-43d6-9dd1-7ed36f337070/_packaging/fuse-repo/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </distributionManagement>
+    <properties>
+        <vale.fis.common.version>2.0.1-SNAPSHOT</vale.fis.common.version>
+        <vale.fis.log.version>2.4.4-SNAPSHOT</vale.fis.log.version>
+        <org.springframwork.version>2.7.3</org.springframwork.version>
+        <camel.version>3.11.7</camel.version>
+    </properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>${org.springframwork.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			 <version>${org.springframwork.version}</version>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-spring-boot-starter</artifactId>
-		</dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-spring-boot-starter</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+        
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-jms</artifactId>
+			 <version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-http4</artifactId>
+			<artifactId>camel-http</artifactId>
+			 <version>${camel.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>artemis-jms-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.fabric8</groupId>
-			<artifactId>spring-cloud-kubernetes-core</artifactId>
-		</dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>artemis-jms-client</artifactId>
+            <version>2.17.0</version>
+        </dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
+			 <version>${org.springframwork.version}</version>
 		</dependency>
 		<!-- Vale -->
 		<dependency>
 			<groupId>br.com.vale.fis</groupId>
 			<artifactId>vale-fis-common</artifactId>
-			<version>${vale-fis-common.version}</version>
+			<version>${vale.fis.common.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>br.com.vale.fis</groupId>
 			<artifactId>vale-fis-log</artifactId>
-			<version>${vale-fis-log.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>br.com.vale.fis</groupId>
-			<artifactId>vale-fis-archetype</artifactId>
-			<version>${vale-fis-archetype.version}</version>
+			<version>${vale.fis.log.version}</version>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<defaultGoal>spring-boot:run</defaultGoal>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>fabric8-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+        <defaultGoal>spring-boot:run</defaultGoal>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.6.4</version>
+                <configuration>
+                    <mainClass>br.com.vale.fis.Application</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

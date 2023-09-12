@@ -1,0 +1,30 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+variables:
+  - group: openshift
+  - group: serviceNowKeys
+
+trigger:
+  - release/*
+
+pool:
+  name: "openshift"
+
+resources:
+  repositories:
+    - repository: pipelines
+      type: git
+      name: Enterprise Integration - Fuse/pipelines
+      ref: main
+
+stages:
+  - template: pipeline-qa.yaml@pipelines
+    parameters:
+      globalid: $(Build.Repository.Name)
+      zone: 'valenet'
+      description: 'Get Master Data of SAP IM PI/P2 '
+      projectName: '$(Build.Repository.Name)-qa'
+      projectNameprd: '$(Build.Repository.Name)-prd'

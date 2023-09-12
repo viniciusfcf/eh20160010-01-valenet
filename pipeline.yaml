@@ -1,0 +1,30 @@
+variables:
+- group: openshift
+
+trigger:
+  - feature/*
+
+pool:
+  name: "openshift"
+
+resources:
+  repositories:
+    - repository: pipelines
+      type: git
+      name: Enterprise Integration - Fuse/pipelines
+      ref: main
+
+    - repository: Models
+      type: git
+      name: Cloud Play Book/ACR-Pipeline
+      ref: main
+
+stages:
+  - template: pipeline-dev.yaml@pipelines
+    parameters:
+      globalid: $(Build.Repository.Name)
+      zone: 'valenet'
+      description: 'Get Master Data of SAP IM PI/P2 '
+      projectName: '$(Build.Repository.Name)-dev'
+      spClientId: '$(sp-client-id)'
+      spClientSecret: '$(sp-client-secret)'

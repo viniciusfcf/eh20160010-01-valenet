@@ -1,0 +1,33 @@
+apiVersion: v1
+data:
+  amq.host: 'tcp://10.46.42.13:61616'
+  amq.valenet-host: 'tcp://10.46.42.13:61616'
+  log.console: 'true'
+  log.activate: 'true'
+  log.payload: 'true'
+  app.global.id: 'eh20160010-01-valenet-dev'
+  amq.timetolive: '180000'
+  management.health.jms.enabled: 'false'
+  endpoints.enabled: 'false'
+  endpoints.health.enabled: 'true'   
+  logging.config: 'classpath:logback.xml'
+  environment: 'VALENET-DEV' 
+  logger.queue: 'vale.br.amq.fuse.logger'
+  host.logger.config: 'https://http-route-fuse-logger-config-dev.apps.pgjwbjq2.eastus2.aroapp.io/loadconf/v1/broker/'
+  amq.host.test: 'tcp://10.46.42.13:61616'
+  test.application.name: 'eh20160010-01-valenet'
+  activemq.queue.request: 'vale.br.amq.getmasterdata.request'
+  activemq.queue.response: 'vale.br.amq.getmasterdata.response'
+  azure.soapAction: 'http://www.vale.com/EH/EH20160010_01/GetMasterData/getMasterDataResponse'
+  azure.endpoint: 'healthandsafetyapi-webservice-dev.azurewebsites.net/Services/MasterDataService.asmx'
+  azure.autorizationKey: 'Gyc4d339d5b142ad8eab93151aad760712ae6e46499c481195fbfbfe92fcd0fe2c9c53479daf4705930ce0fac80e694d'
+  activemq.queue.request-dev: 'vale.br.amq.getmasterdata.request.dev'
+  activemq.queue.response-dev: 'vale.br.amq.getmasterdate.response.dev'
+  azure.endpoint-dev: 'iris-webservice-staging.azurewebsites.net/Services/MasterDataService.asmx'
+  azure.autorizationKey-dev: 'Gyc4d339d5b142ad8eab93151aad760712ae6e46499c481195fbfbfe92fcd0fe2c9c53479daf4705930ce0fac80e694d'
+
+kind: ConfigMap
+metadata:
+  name: eh20160010-01-valenet
+  namespace: eh20160010-01-valenet-dev
+  
