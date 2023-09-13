@@ -60,7 +60,7 @@ public class FromAMQToAzure extends RouteBuilder {
 		  ;
     
 
-	  from("amqValenet:" + queueResponse.concat("?disableReplyTo=true&supportAdvisory=false"))
+	  from("amqValenet:" + queueResponse.concat("?disableReplyTo=true"))
 	    .routeId("FromAMQToAzure")
         .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
         .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
@@ -83,7 +83,7 @@ public class FromAMQToAzure extends RouteBuilder {
 	  
 	
 
-	  from("amqValenet:" + queueResponse.concat("?disableReplyTo=true&supportAdvisory=false"))
+	  from("amqValenet:" + queueResponse.concat("?disableReplyTo=true"))
 		  .routeId("FromAMQToAzureDEV")
 	      .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
 	      .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
