@@ -58,7 +58,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  	.bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Company Structure - Started')")
 		  	.convertBodyTo(String.class, "UTF-8")
 		  	.setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		    .to("amqValenet:".concat(queueRequest).concat("?disableReplyTo=true"))
+		    .to("amqValenet:".concat(queueRequest).concat("?disableReplyTo=true&supportAdvisory=false"))
 			.bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Company Structure - Finished')")
            ;
 	 
@@ -73,7 +73,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		 	 .bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Organizational Unit - Started')")
 			 .convertBodyTo(String.class, "UTF-8")
 			 .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-			 .to("amqValenet:".concat(queueRequest).concat("?disableReplyTo=true"))
+			 .to("amqValenet:".concat(queueRequest).concat("?disableReplyTo=true&supportAdvisory=false"))
 			 .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Organizational Unit - Finished')")
 	        ;
 
@@ -87,7 +87,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 	      .bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Category Event  - Started')")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .to("amqValenet:".concat(queueRequest).concat("?disableReplyTo=true"))
+		  .to("amqValenet:".concat(queueRequest).concat("?disableReplyTo=true&supportAdvisory=false"))
 		  .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Category Event  - Finished')");
 		
 		
@@ -105,7 +105,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  .bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Company Structure (DEV) - Started')")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .to("amqValenet:".concat(queueRequestDev).concat("?disableReplyTo=true"))
+		  .to("amqValenet:".concat(queueRequestDev).concat("?disableReplyTo=true&supportAdvisory=false"))
 		  .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Company Structure (DEV) - Finished')")
           ;
 	 
@@ -122,7 +122,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		     .bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Organizational Unit (DEV) - Started')")
 			 .convertBodyTo(String.class, "UTF-8")
 			 .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-			 .to("amqValenet:".concat(queueRequestDev).concat("?disableReplyTo=true"))
+			 .to("amqValenet:".concat(queueRequestDev).concat("?disableReplyTo=true&supportAdvisory=false"))
 			 .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Organizational Unit (DEV) - Finished')")
 	         ;
 
@@ -139,7 +139,7 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 	      .bean(FUSE_LOG,"log(" + EventCode.V001 + ",'Send Category Event (DEV) - Started')")
 		  .convertBodyTo(String.class, "UTF-8")
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .to("amqValenet:".concat(queueRequestDev).concat("?disableReplyTo=true"))
+		  .to("amqValenet:".concat(queueRequestDev).concat("?disableReplyTo=true&supportAdvisory=false"))
 	      .bean(FUSE_LOG,"log(" + EventCode.V100 + ",'Send Category Event (DEV) - Finished')")
 		  ;
 		 
