@@ -60,7 +60,7 @@ public class FromAMQToAzure extends RouteBuilder {
 		  ;
     
 
-	  from("amqValenet:" + queueResponse)
+	  from("amqValenet:" + queueResponse.concat("?disableReplyTo=true"))
 	    .routeId("FromAMQToAzure")
         .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
         .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
@@ -82,7 +82,8 @@ public class FromAMQToAzure extends RouteBuilder {
 	  /** Configuração para o ambiente SAP-EQ0 **/
 	  
 	
-	  from("amqValenet:" + queueResponseDev)
+
+	  from("amqValenet:" + queueResponse.concat("?disableReplyTo=true"))
 		  .routeId("FromAMQToAzureDEV")
 	      .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
 	      .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
