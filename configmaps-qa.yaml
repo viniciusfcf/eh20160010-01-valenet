@@ -1,8 +1,8 @@
 apiVersion: v1
 data:
-  amq.host: 'tcp://10.46.42.13:61616'
-  amq.valenet-host: 'tcp://10.46.42.13:61616'
-  amq.valenet.host: 'tcp://10.46.42.13:61616'
+  amq.host: 'tcp://10.46.42.14:61616'
+  amq.valenet-host: 'tcp://10.46.42.14:61616'
+  amq.valenet.host: 'tcp://10.46.42.14:61616'
   log.console: 'true'
   log.activate: 'true'
   log.payload: 'true'
@@ -15,7 +15,7 @@ data:
   environment: 'VALENET-QA' 
   logger.queue: 'vale.br.amq.fuse.logger'
   host.logger.config: 'https://route-edge-secured-fuse-logger-config-dev.apps.pgjwbjq2.eastus2.aroapp.io/loadconf/v1/broker/'
-  amq.host.test: 'tcp://10.46.42.13:61616'
+  amq.host.test: 'tcp://10.46.42.14:61616'
   test.application.name: 'eh20160010-01-valenet'
   activemq.queue.request: 'vale.br.amq.getmasterdata.request'
   activemq.queue.response: 'vale.br.amq.getmasterdata.response'
