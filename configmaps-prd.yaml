@@ -14,7 +14,7 @@ data:
   logging.config: 'classpath:logback.xml'
   environment: 'VALENET-PRD' 
   logger.queue: 'vale.br.amq.fuse.logger'
-  host.logger.config: 'https://http-route-fuse-logger-config-dev.apps.pgjwbjq2.eastus2.aroapp.io/loadconf/v1/broker/'
+  host.logger.config: 'https://route-edge-secured-fuse-logger-config-dev.apps.pgjwbjq2.eastus2.aroapp.io/loadconf/v1/broker/'
   amq.host.test: 'tcp://10.46.42.13:61616'
   test.application.name: 'eh20160010-01-valenet'
   activemq.queue.request: 'vale.br.amq.getmasterdata.request'
