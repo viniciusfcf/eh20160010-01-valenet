@@ -6,7 +6,7 @@ data:
   log.console: 'true'
   log.activate: 'true'
   log.payload: 'true'
-  app.global.id: 'eh20160010-01-valenet'
+  app.global.id: 'eh20160010-01-valenet-qa'
   amq.timetolive: '180000'
   management.health.jms.enabled: 'false'
   endpoints.enabled: 'false'
