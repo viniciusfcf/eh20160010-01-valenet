@@ -1,5 +1,7 @@
 package br.com.vale.fis.components;
 
+import java.io.IOException;
+
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -7,6 +9,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +41,13 @@ public class QueueListener {
 	private CamelContext context;	
 
 	@JmsListener(destination = "vale.br.amq.getmasterdata.response", containerFactory = "jmsFactory")
-	public void devValenetConsumer(Message msg) throws JMSException {
-		logger.info(EventCode.V001 + ", Message Received from vale.br.amq.getmasterdata.response.");
-		context.createProducerTemplate().sendBody("direct:start", ((TextMessage) msg).getText());
+	public void devValenetConsumer(Message msg) throws JMSException, IOException {
+	    logger.info(EventCode.V001 + ", Message Received from vale.br.amq.getmasterdata.response.");
+	    
+	    try (ProducerTemplate producerTemplate = context.createProducerTemplate()) {
+	        producerTemplate.sendBody("direct:start", ((TextMessage) msg).getText());
+	    }
 	}
-
 	@Bean
 	public JmsListenerContainerFactory<?> jmsFactory(ConnectionFactory connectionFactory,
 			DefaultJmsListenerContainerFactoryConfigurer configurer) throws Exception {
