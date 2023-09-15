@@ -12,16 +12,15 @@ import br.com.vale.fis.log.enums.EventCode;
 import br.com.vale.fis.log.enums.LogHeaders;
 
 @Component
+@java.lang.SuppressWarnings("all")
 public class PostAPIManagementToAMQ extends RouteBuilder {
+	
 	
 	@Value("${app.global.id}")
 	private String globalId;
 	
 	@Value("${activemq.queue.request}")
 	private String queueRequest;
-	
-	@Value("${activemq.queue.request-dev}")
-	private String queueRequestDev;
 
 	@Value("${azure.endpoint}")
 	private String endpoint;
@@ -89,60 +88,6 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
 		  .to("amqValenet:".concat(queueRequest).concat("?disableReplyTo=true"))
 		  .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Category Event  - Finished')");
-		
-		
-		/** Configuração para o ambiente SAP-EQ0 **/
-		
-		rest("/location") 
-		  .consumes(MediaType.APPLICATION_XML_VALUE)
-		  .produces(MediaType.APPLICATION_XML_VALUE) 
-		  .post("/structure/DEV") 
-		  .route()
-		  .routeId("PostCompanyStructureDEV")
-		  .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
-		  .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
-		  .setProperty(LogHeaders.SYSTEM_NAME.value, simple("FUSE"))
-		  .bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Company Structure (DEV) - Started')")
-		  .convertBodyTo(String.class, "UTF-8")
-		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .to("amqValenet:".concat(queueRequestDev).concat("?disableReplyTo=true"))
-		  .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Company Structure (DEV) - Finished')")
-          ;
-	 
-		
-		rest("/organizational") 
-			.consumes(MediaType.APPLICATION_XML_VALUE)
-			.produces(MediaType.APPLICATION_XML_VALUE) 
-			.post("/unit/DEV") 
-			.route()
-			.routeId("PostOrganizationalUnitDEV")
-		     .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
-		     .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
-		     .setProperty(LogHeaders.SYSTEM_NAME.value, simple("FUSE"))
-		     .bean(FUSE_LOG,"log(" + EventCode.V001 + ",' Send Organizational Unit (DEV) - Started')")
-			 .convertBodyTo(String.class, "UTF-8")
-			 .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-			 .to("amqValenet:".concat(queueRequestDev).concat("?disableReplyTo=true"))
-			 .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Organizational Unit (DEV) - Finished')")
-	         ;
-
-		
-		rest("/category") 
-		  .consumes(MediaType.APPLICATION_XML_VALUE)
-		  .produces(MediaType.APPLICATION_XML_VALUE) 
-		  .post("/event/DEV") 
-		  .route()
-		  .routeId("PostCategoryEventDEV")
-	      .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
-	      .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
-	      .setProperty(LogHeaders.SYSTEM_NAME.value, simple("FUSE"))
-	      .bean(FUSE_LOG,"log(" + EventCode.V001 + ",'Send Category Event (DEV) - Started')")
-		  .convertBodyTo(String.class, "UTF-8")
-		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
-		  .to("amqValenet:".concat(queueRequestDev).concat("?disableReplyTo=true"))
-	      .bean(FUSE_LOG,"log(" + EventCode.V100 + ",'Send Category Event (DEV) - Finished')")
-		  ;
-		 
 	}
 
 	private String createResponse(String status, String messageError) {
