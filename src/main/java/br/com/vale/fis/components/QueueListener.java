@@ -26,6 +26,8 @@ import br.com.vale.fis.log.enums.EventCode;
 
 
 @Component
+
+@java.lang.SuppressWarnings("all")
 public class QueueListener {
 	
 	private static final Logger logger = LoggerFactory.getLogger(QueueListener.class);

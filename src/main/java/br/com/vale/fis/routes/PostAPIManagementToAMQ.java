@@ -12,6 +12,7 @@ import br.com.vale.fis.log.enums.EventCode;
 import br.com.vale.fis.log.enums.LogHeaders;
 
 @Component
+@java.lang.SuppressWarnings("all")
 public class PostAPIManagementToAMQ extends RouteBuilder {
 	
 	
