@@ -87,9 +87,6 @@ public class PostAPIManagementToAMQ extends RouteBuilder {
 		  .setHeader("CamelHttpCharacterEncoding", constant("UTF-8"))
 		  .to("amqValenet:".concat(queueRequest).concat("?disableReplyTo=true"))
 		  .bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Send Category Event  - Finished')");
-		
-	
-		 
 	}
 
 	private String createResponse(String status, String messageError) {
