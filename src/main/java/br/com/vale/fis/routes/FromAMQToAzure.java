@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
-import br.com.vale.fis.log.enums.EventCode;
-import br.com.vale.fis.log.enums.LogHeaders;
+// import br.com.vale.fis.log.enums.EventCode;
+// import br.com.vale.fis.log.enums.LogHeaders;
 
 @Component
 @java.lang.SuppressWarnings("all")
@@ -52,17 +52,17 @@ public class FromAMQToAzure extends RouteBuilder {
   
 	  onException(Exception.class)
 	      .handled(true)
-	      .bean(FUSE_LOG,"log(" + EventCode.E950 + ",'Generic Error ${exception.message}')")
+	      .log("log(EventCode.E950,'Generic Error ${exception.message}')")
 		  ;
     
 
-	from("amqValenet:" + queueResponse.concat("?disableReplyTo=true"))
+	from("activemq:" + queueResponse.concat("?disableReplyTo=true"))
 	    .routeId("FromAMQToAzure")
-        .setProperty(LogHeaders.GLOBAL_ID.value, constant(globalId))
-        .setProperty(LogHeaders.ROUTE_ID.value, simple("${routeId}"))
-        .setProperty(LogHeaders.SYSTEM_NAME.value, simple("FUSE"))
-        .bean(FUSE_LOG,"log(" + EventCode.V001 + ",'  Interface Started')")
-        .bean(FUSE_LOG,"log(" + EventCode.V008 + ",' Get Master Data  - Started')")
+        .setProperty("LogHeaders.GLOBAL_ID.value", constant(globalId))
+        .setProperty("LogHeaders.ROUTE_ID.value", simple("${routeId}"))
+        .setProperty("LogHeaders.SYSTEM_NAME.value", simple("FUSE"))
+        .log("log(" + "EventCode.V001" + ",'  Interface Started')")
+        .log("log(" + "EventCode.V008" + ",' Get Master Data  - Started')")
 
 		
 		.setHeader("SOAPAction",simple(soapAction))
@@ -70,8 +70,8 @@ public class FromAMQToAzure extends RouteBuilder {
 	    .transform(simple("${body.replace('<getMasterDataResponse>', '<getMasterDataResponse xmlns=\"http://www.vale.com/EH/EH20160010_01/GetMasterData\">')}"))
 		.setHeader(Exchange.CONTENT_TYPE,constant("text/xml;charset=utf-8"))
 		.to("https://".concat(endpoint))
-		.bean(FUSE_LOG,"log(" + EventCode.V108 + ",' Get Master Data - Finished')")
-		.bean(FUSE_LOG,"log(" + EventCode.V100 + ",' Interface Finished')")
+		.log("log(" + "EventCode.V108" + ",' Get Master Data - Finished')")
+		.log("log(" + "EventCode.V100" + ",' Interface Finished')")
         ;
 	  
 	 

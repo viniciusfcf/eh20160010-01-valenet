@@ -3,19 +3,20 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
+	<!-- <parent>
 		<groupId>br.com.vale.fis</groupId>
 		<artifactId>vale-fis-parent</artifactId>
 		<version>2.1</version>
-	</parent>
+	</parent> -->
 
+    <groupId>br.com.vale.fis</groupId>
 	<artifactId>eh20160010-01-valenet</artifactId>
 	<version>0.0.13-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>eh20160010-01-valenet</name>
     <description>eh20160010-01-valenet</description>
 
-	<repositories>
+	<!-- <repositories>
         <repository>
             <id>fuse-repo</id>
             <url>https://vale-devops.pkgs.visualstudio.com/d925569a-c008-43d6-9dd1-7ed36f337070/_packaging/fuse-repo/maven/v1</url>
@@ -38,7 +39,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-    </distributionManagement>
+    </distributionManagement> -->
     <properties>
         <vale.fis.common.version>2.0.1-SNAPSHOT</vale.fis.common.version>
         <vale.fis.log.version>2.4.4-SNAPSHOT</vale.fis.log.version>
@@ -62,6 +63,16 @@
 		<dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-spring-boot-starter</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-activemq-starter</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-servlet-starter</artifactId>
             <version>${camel.version}</version>
         </dependency>
         
@@ -89,7 +100,7 @@
 			 <version>${org.springframwork.version}</version>
 		</dependency>
 		<!-- Vale -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>br.com.vale.fis</groupId>
 			<artifactId>vale-fis-common</artifactId>
 			<version>${vale.fis.common.version}</version>
@@ -98,7 +109,7 @@
 			<groupId>br.com.vale.fis</groupId>
 			<artifactId>vale-fis-log</artifactId>
 			<version>${vale.fis.log.version}</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 	<build>
