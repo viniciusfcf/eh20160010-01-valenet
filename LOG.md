@@ -13,4 +13,4 @@
 
 # stats
  - Memória: 225MB
- - CPU: 400% para subir por alguns segundos, depois fica em 0,08%
+ - CPU: 0,08%
