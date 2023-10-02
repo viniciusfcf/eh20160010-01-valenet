@@ -22,7 +22,7 @@ bin
 /nbdist/
 /.nb-gradle/
 build/
-application.properties
+#application.properties
 
 ### VS Code ###
 .vscode/
