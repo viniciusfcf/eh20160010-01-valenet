@@ -38,7 +38,7 @@ public class FromAMQToAzure extends RouteBuilder {
   
   @Autowired
   private CamelContext ctx;
-  @Autowired
+
   private static final String FUSE_LOG = "fuseLog";
   
   @PostConstruct
@@ -57,7 +57,7 @@ public class FromAMQToAzure extends RouteBuilder {
 		  ;
     
 
-	from("activemq:" + queueResponse.concat("?disableReplyTo=true"))
+	from("activemq:{{activemq.queue.response}}?disableReplyTo=true")
 	    .routeId("FromAMQToAzure")
         .setProperty("LogHeaders.GLOBAL_ID.value", constant(globalId))
         .setProperty("LogHeaders.ROUTE_ID.value", simple("${routeId}"))

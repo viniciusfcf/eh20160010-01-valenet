@@ -1,7 +1,5 @@
 package br.com.vale.fis;
 
-import org.apache.camel.component.servlet.CamelHttpTransportServlet;
-import org.springframework.context.annotation.Bean;
 
 // @SpringBootApplication
 public class Application {
